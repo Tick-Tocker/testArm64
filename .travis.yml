@@ -33,6 +33,7 @@ matrix:
       env: OPTS="--disable-ssl"
 
 script: ./.travis/show-myself.sh
+        ./docker/docker_build.sh
 
 notifications:
   email:
