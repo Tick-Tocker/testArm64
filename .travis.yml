@@ -5,6 +5,10 @@ compiler:
 os:
   - linux
 
+arch:
+  - amd64
+  - arm64
+
 cache:
   directories:
     - dpdk-dir
