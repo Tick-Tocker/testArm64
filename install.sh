@@ -9,11 +9,14 @@ export DOCKER_CLI_EXPERIMENTAL=enabled
 docker version
 docker manifest --help
 
-
+ls /etc/docker/
 cat /etc/docker/daemon.json
 
-echo $'{\n    "experimental": true\n}' | tee /etc/docker/daemon.json
+echo $'{\n    "experimental": true\n}' | tee -a /etc/docker/daemon.json
 service docker restart
 
 docker manifest --help
 echo 999999999999999999999
+
+docker manifest create --amend xxxxx
+echo 99999999999999999999999999999999
