@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -x
 
 if [ "$(uname -m)" == "aarch64" ]; then
   echo "this is aarch64 platform"
