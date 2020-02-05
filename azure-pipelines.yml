@@ -1,0 +1,16 @@
+trigger:
+- master
+
+jobs:
+- job: build_container
+  strategy:
+    matrix:
+      ubuntu:
+        LINUX_DISTRO: ubuntu
+  dependsOn: []
+  pool:
+    vmImage: 'ubuntu-16.04'
+  container: google/cloud-sdk:latest
+  steps:
+  - bash: |
+      echo 11111111111111111111111111111111
