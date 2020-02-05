@@ -11,12 +11,12 @@ docker manifest --help
 
 echo 111111111111111111111111111111111111111111
 
-apt-get update
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/microsoft-prod.list
-apt-get update
-apt-get install -y moby-engine moby-cli
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/microsoft-prod.list
+sudo apt-get update
+sudo apt-get install -y moby-engine moby-cli
 
 
 
