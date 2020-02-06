@@ -7,6 +7,8 @@ jobs:
     matrix:
       ubuntu:
         LINUX_DISTRO: ubuntu
+      centos:
+        LINUX_DISTRO: centos
   dependsOn: []
   pool:
     vmImage: 'ubuntu-16.04'
