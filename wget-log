@@ -1,0 +1,11 @@
+--2020-02-06 02:49:49--  https://dev.azure.com/JingzhaoNi/Test/_build/results?buildId=13
+Resolving dev.azure.com (dev.azure.com)... 13.107.42.20, 2620:1ec:21::20
+Connecting to dev.azure.com (dev.azure.com)|13.107.42.20|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘results?buildId=13’
+
+results?buildId=13                          [<=>                                                                           ]       0  --.-KB/s               results?buildId=13                          [ <=>                                                                          ] 120.17K  --.-KB/s    in 0.08s   
+
+2020-02-06 02:49:50 (1.53 MB/s) - ‘results?buildId=13’ saved [123058]
+
