@@ -12,5 +12,5 @@ docker manifest --help
 
 echo 111111111111111111111111111111111111111111
 
-docker manifest create --amend xxxxx
+docker manifest create --help
 echo 99999999999999999999999999999999
