@@ -12,14 +12,13 @@ jobs:
     vmImage: 'ubuntu-16.04'
   container: google/cloud-sdk:latest
   steps:
-  - bash: |
-      apt update
-      apt install -y docker.ce
-      docker version
-      echo 22222222222222222222222222222222
-      ./install.sh
   - task: DockerInstaller@0
     displayName: Docker Installer
     inputs:
-      dockerVersion: 17.09.0-ce
+      dockerVersion: 19.03.5-ce
       releaseType: stable
+  - bash: |
+      echo 111111111111111111111111
+      docker version
+      echo 22222222222222222222222222222222
+      ./install.sh
