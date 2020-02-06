@@ -3,6 +3,8 @@ trigger:
 
 jobs:
 - job: build_container
+  dockerVersion: 17.09.0-ce
+  releaseType: stable
   strategy:
     matrix:
       ubuntu:
@@ -13,8 +15,8 @@ jobs:
   container: google/cloud-sdk:latest
   steps:
   - bash: |
-      sudo apt update
-      sudo apt install -y docker.ce
+      apt update
+      apt install -y docker.ce
       docker version
       echo 22222222222222222222222222222222
       ./install.sh
