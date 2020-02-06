@@ -24,3 +24,17 @@ jobs:
       docker version
       echo 22222222222222222222222222222222
       ./install.sh
+
+
+- job: generate_toolchains
+  dependsOn: "build_container"
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - task: DockerCheck@0
+    displayName: Docker Installer
+    inputs:
+      dockerVersion: 19.03.5
+      releaseType: stable
+  - bash: |
+      echo "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
