@@ -36,3 +36,13 @@ jobs:
       version: '1.13.4' 
   - bash: |
       echo "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+- job: release_arm64
+  displayName: "Linux-arm64 release.server_only"
+  pool: "arm-large"
+  steps:
+  - bash: |
+      echo 3333333333333333333333333333333
+      echo 44444444444444444444444444444444444444
+      echo 55555555555555555555555555555555555555555555
+
