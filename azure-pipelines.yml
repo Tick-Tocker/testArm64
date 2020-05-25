@@ -10,7 +10,7 @@ jobs:
       centos:
         LINUX_DISTRO: centos
   dependsOn: []
-  pool: "AWS-ubuntu-1804"
+  pool: "Default"
   container: google/cloud-sdk:latest
   steps:
   - task: DockerInstaller@0
