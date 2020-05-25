@@ -10,8 +10,7 @@ jobs:
       centos:
         LINUX_DISTRO: centos
   dependsOn: []
-  pool:
-    vmImage: 'ubuntu-16.04'
+  pool: "arm-large"
   container: google/cloud-sdk:latest
   steps:
   - task: DockerInstaller@0
