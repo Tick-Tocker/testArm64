@@ -10,7 +10,7 @@ jobs:
       centos:
         LINUX_DISTRO: centos
   dependsOn: []
-  pool: "Default"
+  pool: "Azure Pipelines"
   container: google/cloud-sdk:latest
   steps:
   - task: DockerInstaller@0
