@@ -23,9 +23,20 @@ jobs:
       docker version
       echo 22222222222222222222222222222222
 
-
 - job: generate_toolchains
   dependsOn: "build_container"
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - task: GoTool@0
+    inputs:
+      version: '1.13.4'
+  - bash: |
+      echo "xxxxxx1111111111111111111111111"
+
+- job: dependcheck
+  dependsOn: ["build_container","generate_toolchains"]
+  condition: succeeded()
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
