@@ -3,12 +3,6 @@ trigger:
 
 jobs:
 - job: build_container
-  strategy:
-    matrix:
-      ubuntu:
-        LINUX_DISTRO: ubuntu
-      centos:
-        LINUX_DISTRO: centos
   dependsOn: []
   pool: "Azure Pipelines"
   container: google/cloud-sdk:latest
