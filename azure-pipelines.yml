@@ -23,7 +23,7 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - task: GoTool@1
+  - task: GoTool@0
     inputs:
       version: '1.13.4'
   - bash: |
@@ -36,9 +36,11 @@ jobs:
     vmImage: 'ubuntu-16.04'
   steps:
 # <NAME>@<VERSION>
-  - task: GoTool@2
+  - task: DockerInstaller@0
+    displayName: Docker Installer
     inputs:
-      version: '1.13.4' 
+      dockerVersion: 19.03.5
+      releaseType: stable
   - bash: |
       echo "start build binary & docker images"
       ./ci/docker_ci.sh
