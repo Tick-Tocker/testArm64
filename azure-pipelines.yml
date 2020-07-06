@@ -40,4 +40,5 @@ jobs:
     inputs:
       version: '1.13.4' 
   - bash: |
-      echo "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      echo "start build binary & docker images"
+      ./ci/docker_ci.sh
