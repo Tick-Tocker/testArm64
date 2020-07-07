@@ -111,7 +111,7 @@ for BUILD_TYPE in "${BUILD_TYPES[@]}"; do
 
     # Only push latest on master builds.
     if [[ "${AZP_BRANCH}" == "${MASTER_BRANCH}" ]]; then
-        push_images $BUILD_TYPE ci/Dockerfile-envoy"${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:latest"
+        push_images "$BUILD_TYPE" ci/Dockerfile-envoy"${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:latest"
     fi
 
     # Push vX.Y-latest to tag the latest image in a release line
