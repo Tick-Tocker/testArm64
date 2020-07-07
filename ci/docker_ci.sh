@@ -46,7 +46,7 @@ build_images(){
         docker buildx build -o type=docker --platform linux/arm64 -f "${DOCKERFILE}" -t "${IMAGETAG}"-arm64 .
     else
         # Build x86 images
-        docker buildx build -f "${DOCKERFILE}" -t "${IMAGETAG}" .
+        docker build -f "${DOCKERFILE}" -t "${IMAGETAG}" .
     fi
 }
 
@@ -60,7 +60,7 @@ push_images(){
         docker buildx build --platform linux/amd64,linux/arm64 --push -f "${DOCKERFILE}" -t "${IMAGETAG}" .
     else
         # Push x86 images
-        docker buildx build --push -f "${DOCKERFILE}" -t "${IMAGETAG}" .
+        docker push "${IMAGETAG}" .
     fi
 }
 
