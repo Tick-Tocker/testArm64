@@ -14,54 +14,18 @@ config_env(){
     docker buildx create --use --name multi-builder --platform linux/arm64,linux/amd64
 }
 
-# Build image
-# $1 Build types ("" "-alpine" "-alpine-debug" "-google-vrp")
-# $2 Dockerfile
-# $3 image tag
-<<COMMENTS
-build_images(){
-    BUILD_TYPE=$1
-    DOCKERFILE=$2
-    IMAGETAG=$3
-    PUSH=$4
-
-    if [ -z "${BUILD_TYPE}" ]; then
-        # If BUILD_TYPE is empty, build multiarch images
-        docker buildx build --platform linux/amd64,linux/arm64 $PUSH -f "${DOCKERFILE}" -t "${IMAGETAG}" .
-    else
-        # Build x86 images
-        docker buildx build $PUSH -f "${DOCKERFILE}" -t "${IMAGETAG}" .
-    fi
-}
-COMMENTS
-
-build_images(){
-    BUILD_TYPE=$1
-    DOCKERFILE=$2
-    IMAGETAG=$3
-
-    if [ -z "${BUILD_TYPE}" ]; then
-        # If BUILD_TYPE is empty, build multiarch images
-        docker buildx build -o type=docker --platform linux/amd64 -f "${DOCKERFILE}" -t "${IMAGETAG}" .
-        docker buildx build -o type=docker --platform linux/arm64 -f "${DOCKERFILE}" -t "${IMAGETAG}"-arm64 .
-    else
-        # Build x86 images
-        docker build -f "${DOCKERFILE}" -t "${IMAGETAG}" .
-    fi
-}
-
 push_images(){
-    BUILD_TYPE=$1
-    DOCKERFILE=$2
-    IMAGETAG=$3
+    TYPE=$1
+    BUILD_TAG=$2
 
-    if [ -z "${BUILD_TYPE}" ]; then
-        # if BUILD_TYPE is empty, push multi-arch images
-        docker buildx build --platform linux/amd64,linux/arm64 --push -f "${DOCKERFILE}" -t "${IMAGETAG}" .
-    else
-        # Push x86 images
-        docker push "${IMAGETAG}" .
+    # Only push envoyproxy/envoy image for multi-arch since others still do not support.
+    if [ -z "${TYPE}" ]; then
+        docker buildx build --push --platform linux/arm64,linux/amd64 -f ci/Dockerfile-envoy"${TYPE}" -t ${BUILD_TAG} .
+        return
     fi
+
+    docker tag "${DOCKER_IMAGE_PREFIX}${TYPE}:local" ${BUILD_TAG}
+    docker push ${BUILD_TAG}
 }
 
 # This prefix is altered for the private security images on setec builds.
@@ -76,8 +40,11 @@ config_env
 # Test the docker build in all cases, but use a local tag that we will overwrite before push in the
 # cases where we do push.
 for BUILD_TYPE in "${BUILD_TYPES[@]}"; do
-    build_images "${BUILD_TYPE}" "ci/Dockerfile-envoy${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}:local"
+    docker build -f ci/Dockerfile-envoy"${BUILD_TYPE}" -t "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}:local" .
 done
+
+# Only build envoyproxy/envoy images on arm64 platform since others still does not support.
+docker buildx build --platform linux/arm64 -f ci/Dockerfile-envoy -t "${DOCKER_IMAGE_PREFIX}:local-arm64" .
 
 MASTER_BRANCH="refs/heads/master"
 RELEASE_BRANCH_REGEX="^refs/heads/release/v.*"
@@ -106,19 +73,16 @@ docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
 
 for BUILD_TYPE in "${BUILD_TYPES[@]}"; do
 
-    # The buildx will directly push the multi-arch images to repo since that the image has been cached in local host
-    push_images "$BUILD_TYPE" "ci/Dockerfile-envoy${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:${IMAGE_NAME}"
-
+    push_images "${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:${IMAGE_NAME}"
+	
     # Only push latest on master builds.
     if [[ "${AZP_BRANCH}" == "${MASTER_BRANCH}" ]]; then
-        push_images "$BUILD_TYPE" ci/Dockerfile-envoy"${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:latest"
+        push_images "${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:latest"
     fi
 
     # Push vX.Y-latest to tag the latest image in a release line
     if [[ "${AZP_BRANCH}" =~ ${RELEASE_TAG_REGEX} ]]; then
       RELEASE_LINE=$(echo "$IMAGE_NAME" | sed -E 's/(v[0-9]+\.[0-9]+)\.[0-9]+/\1-latest/')
-      push_images "$BUILD_TYPE" "ci/Dockerfile-envoy${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:${RELEASE_LINE}"
+        push_images "${BUILD_TYPE}" "${DOCKER_IMAGE_PREFIX}${BUILD_TYPE}${IMAGE_POSTFIX}:${RELEASE_LINE}"
     fi
 done
-
-
