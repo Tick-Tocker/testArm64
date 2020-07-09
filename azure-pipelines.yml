@@ -17,11 +17,9 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - task: GoTool@0
-    inputs:
-      version: '1.13.4'
   - bash: |
-      echo "xxxxxx1111111111111111111111111" >> testResult.txt
+      echo "xxxxxx1111111111111111111111111" >> ./testResult.txt
+      pwd
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: "$(Build.StagingDirectory)/testResult.txt"
