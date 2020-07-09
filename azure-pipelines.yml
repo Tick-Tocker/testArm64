@@ -22,10 +22,9 @@ jobs:
       version: '1.13.4'
   - bash: |
       echo "xxxxxx1111111111111111111111111" >> testResult.txt
-
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: "$(Build.ArtifactStagingDirectory)/testResult.txt"
+      pathtoPublish: "$(Build.StagingDirectory)/testResult.txt"
       artifactName: drop
     condition: always()
 
@@ -35,13 +34,12 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-# <NAME>@<VERSION>
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
       downloadType: 'single'
       artifactName: 'drop'
-      downloadPath: '$(System.ArtifactsDirectory)'
+      downloadPath: '$(Build.StagingDirectory)'
   - task: DockerInstaller@0
     displayName: Docker Installer
     inputs:
