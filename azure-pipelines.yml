@@ -28,7 +28,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: "$(Build.StagingDirectory)/install.sh"
-      artifactName: drop
+      artifactName: drop2
     condition: always()
 
 - job: dependcheck
