@@ -22,7 +22,7 @@ jobs:
       pwd
   - task: PublishBuildArtifacts@1
     inputs:
-      pathtoPublish: "$(Build.StagingDirectory)/testResult.txt"
+      pathtoPublish: "$(Build.StagingDirectory)/install.sh"
       artifactName: drop
     condition: always()
 
