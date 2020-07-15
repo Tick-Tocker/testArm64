@@ -17,7 +17,7 @@ RUN apt-get update \
 
 # Final stage
 FROM $BUILD_FROM
-
+ARG TARGETPLATFORM
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y ca-certificates \
@@ -31,15 +31,8 @@ RUN adduser --group --system envoy
 
 RUN mkdir -p /etc/envoy
 
-ADD arm64/build_release_stripped/envoy /usr/local/bin/envoy-arm64
-ADD amd64/build_release_stripped/envoy /usr/local/bin/envoy
+ADD ${TARGETPLATFORM}/build_release_stripped/envoy /usr/local/bin/envoy
 ADD configs/google_com_proxy.v2.yaml /etc/envoy/envoy.yaml
-
-RUN if [ $(uname -m) == "aarch64" ]; then \
-      mv /usr/local/bin/envoy-arm64 /usr/local/bin/envoy; \
-    else \
-      rm /usr/local/bin/envoy-arm64; \
-    fi
 
 EXPOSE 10000
 
