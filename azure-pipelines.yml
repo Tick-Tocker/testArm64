@@ -24,7 +24,7 @@ jobs:
     vmImage: 'ubuntu-16.04'
   steps:
   - bash: |
-      echo "xxxxxx1111111111111111111111111" >> ./testResult.txt
+      echo "xxxxxx111111111111111" >> ./testResult.txt
       pwd
   - task: PublishBuildArtifacts@1
     inputs:
